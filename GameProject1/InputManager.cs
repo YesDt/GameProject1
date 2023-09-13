@@ -15,7 +15,6 @@ namespace GameProject1
 
         public Vector2 Direction { get; private set; }
 
-        public bool Exit { get; private set; } = false;
 
         public void Update(GameTime gameTime)
         {
@@ -36,10 +35,7 @@ namespace GameProject1
             }
 
 
-            if(currentKeyboardState.IsKeyDown(Keys.Escape))
-            {
-                Exit = true;
-            }
+
         }
     }
 }
