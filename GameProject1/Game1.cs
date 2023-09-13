@@ -18,6 +18,8 @@ namespace GameProject1
         private Texture2D _ball;
 
         private SpriteFont _playerControls;
+        private SpriteFont _coinCounter;
+        private SpriteFont _win;
 
         private bool _noCoinsLeft { get; set; } = false;
 
@@ -35,7 +37,8 @@ namespace GameProject1
             _mc = new mcSprite();
             _coins = new CoinSprite[]
             {
-                new CoinSprite(new Vector2(300, 280))
+                new CoinSprite(new Vector2(300, 280)),
+                new CoinSprite(new Vector2(332, 280))
             };
             _coinsLeft = _coins.Length;
             base.Initialize();
@@ -49,6 +52,9 @@ namespace GameProject1
             _mc.LoadContent(Content);
             foreach (var coin in _coins) coin.LoadContent(Content);
             _playerControls = Content.Load<SpriteFont>("Controls");
+            _coinCounter = Content.Load<SpriteFont>("CoinsLeft");
+            _win = Content.Load<SpriteFont>("Congratulations");
+
             _ball = Content.Load<Texture2D>("ball (1)");
         }
 
@@ -94,6 +100,8 @@ namespace GameProject1
                 //    (int)(2*coin.Bounds.Radius), (int)(2*coin.Bounds.Radius));
                 //_spriteBatch.Draw(_ball, rect, Color.White);
             }
+            _spriteBatch.DrawString(_coinCounter, $"Coins Left: {_coinsLeft}", new Vector2(2, 2), Color.Gold);
+
             var rectG = new Rectangle(
                     (int)_mc.Bounds.Left,
                     (int)_mc.Bounds.Bottom,
@@ -121,7 +129,7 @@ namespace GameProject1
 
             if(_noCoinsLeft)
             {
-                //_spriteBatch.DrawString("Congratulations! You win! Press esc to exit the game", new Vector2(250, 60), Color.Black);
+                _spriteBatch.DrawString(_win, "Congratulations! You win! \n Press esc to exit the game", new Vector2(80, 60), Color.Red);
             }
 
             _spriteBatch.End();
