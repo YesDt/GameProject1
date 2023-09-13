@@ -19,6 +19,8 @@ namespace GameProject1
 
         private SpriteFont _playerControls;
 
+        private bool _noCoinsLeft { get; set; } = false;
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -62,11 +64,15 @@ namespace GameProject1
             foreach (var coin in _coins)
             {
                 if (!coin.Collected && coin.Bounds.CollidesWith(_mc.Bounds))
-                {
+                { 
                     coin.Collected = true;
                     _coinsLeft--;
                 }
 
+            }
+            if (_coinsLeft == 0)
+            {
+                _noCoinsLeft = true;
             }
 
             base.Update(gameTime);
@@ -78,22 +84,46 @@ namespace GameProject1
 
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
-            _spriteBatch.DrawString(_playerControls, "W A S D or the arrow keys to move. \n Press esc to quit", new Vector2(250, 10), Color.Black);
+            _spriteBatch.DrawString(_playerControls, "A and D, or the arrow keys to move. \n Press esc to quit", new Vector2(250, 10), Color.Black);
             foreach (var coin in _coins)
             {
                 coin.Draw(gameTime, _spriteBatch);
-                var rect = new Rectangle(
-                    (int)coin.Bounds.Center.X - (int)coin.Bounds.Radius,
-                    (int)coin.Bounds.Center.Y - (int)coin.Bounds.Radius,
-                    (int)(2*coin.Bounds.Radius), (int)(2*coin.Bounds.Radius));
-                _spriteBatch.Draw(_ball, rect, Color.White);
+                //var rect = new Rectangle(
+                //    (int)coin.Bounds.Center.X - (int)coin.Bounds.Radius,
+                //    (int)coin.Bounds.Center.Y - (int)coin.Bounds.Radius,
+                //    (int)(2*coin.Bounds.Radius), (int)(2*coin.Bounds.Radius));
+                //_spriteBatch.Draw(_ball, rect, Color.White);
             }
             var rectG = new Rectangle(
-                    (int)_mc.Bounds.Center.X - (int)_mc.Bounds.Radius,
-                    (int)_mc.Bounds.Center.Y - (int)_mc.Bounds.Radius,
-                    (int)(2*_mc.Bounds.Radius), (int)(2* _mc.Bounds.Radius));
+                    (int)_mc.Bounds.Left,
+                    (int)_mc.Bounds.Bottom,
+                    16, 16);
+
+            var rectT = new Rectangle(
+                    (int)_mc.Bounds.Right,
+                    (int)_mc.Bounds.Bottom,
+                    16, 16);
+            var rectE = new Rectangle(
+                    (int)_mc.Bounds.Left,
+                    (int)_mc.Bounds.Top,
+                    16, 16);
+
+            var rectD = new Rectangle(
+                    (int)_mc.Bounds.Right,
+                    (int)_mc.Bounds.Top,
+                    16, 16);
+
             _spriteBatch.Draw(_ball, rectG, Color.White);
+            _spriteBatch.Draw(_ball, rectT, Color.White);
+            _spriteBatch.Draw(_ball, rectE, Color.White);
+            _spriteBatch.Draw(_ball, rectD, Color.White);
             _mc.Draw(gameTime, _spriteBatch);
+
+            if(_noCoinsLeft)
+            {
+                //_spriteBatch.DrawString("Congratulations! You win! Press esc to exit the game", new Vector2(250, 60), Color.Black);
+            }
+
             _spriteBatch.End();
             base.Draw(gameTime);
 
