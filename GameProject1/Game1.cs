@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Media;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;
 
 namespace GameProject1
@@ -15,11 +17,14 @@ namespace GameProject1
         private CoinSprite[] _coins;
         private int _coinsLeft;
 
-        private Texture2D _ball;
+        private Texture2D _throneRoom;
+        private Texture2D _gameWon;
 
         private SpriteFont _playerControls;
         private SpriteFont _coinCounter;
         private SpriteFont _win;
+
+        private SoundEffect _coinPickup;
 
         private bool _noCoinsLeft { get; set; } = false;
 
@@ -33,12 +38,14 @@ namespace GameProject1
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            //_inputmanager = new InputManager();
             _mc = new mcSprite();
             _coins = new CoinSprite[]
             {
-                new CoinSprite(new Vector2(300, 280)),
-                new CoinSprite(new Vector2(332, 280))
+                new CoinSprite(new Vector2(300, 300)),
+                new CoinSprite(new Vector2(700, 300)),
+                new CoinSprite(new Vector2(5, 300)),
+                new CoinSprite(new Vector2(100, 300)),
+                new CoinSprite(new Vector2(392, 300))
             };
             _coinsLeft = _coins.Length;
             base.Initialize();
@@ -54,8 +61,10 @@ namespace GameProject1
             _playerControls = Content.Load<SpriteFont>("Controls");
             _coinCounter = Content.Load<SpriteFont>("CoinsLeft");
             _win = Content.Load<SpriteFont>("Congratulations");
+            _throneRoom = Content.Load<Texture2D>("Throne room");
+            _gameWon = Content.Load<Texture2D>("gamewon");
+            _coinPickup = Content.Load<SoundEffect>("Pickup_Coin15");
 
-            _ball = Content.Load<Texture2D>("ball (1)");
         }
 
         protected override void Update(GameTime gameTime)
@@ -64,14 +73,13 @@ namespace GameProject1
                 Exit();
 
             // TODO: Add your update logic here
-            //_inputmanager.Update(gameTime);
-            //if (_inputmanager.Exit) Exit();
             _mc.Update(gameTime);
             foreach (var coin in _coins)
             {
                 if (!coin.Collected && coin.Bounds.CollidesWith(_mc.Bounds))
                 { 
                     coin.Collected = true;
+                    _coinPickup.Play();
                     _coinsLeft--;
                 }
 
@@ -90,46 +98,22 @@ namespace GameProject1
 
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
-            _spriteBatch.DrawString(_playerControls, "A and D, or the arrow keys to move. \n Press esc to quit", new Vector2(250, 10), Color.Black);
+            _spriteBatch.Draw(_throneRoom, new Vector2(0, 0), null, Color.White);
+            _spriteBatch.DrawString(_playerControls, "A and D, or the \n left and right arrow keys to move. \n Press esc to quit", new Vector2(180, 30), Color.Black);
             foreach (var coin in _coins)
             {
                 coin.Draw(gameTime, _spriteBatch);
-                //var rect = new Rectangle(
-                //    (int)coin.Bounds.Center.X - (int)coin.Bounds.Radius,
-                //    (int)coin.Bounds.Center.Y - (int)coin.Bounds.Radius,
-                //    (int)(2*coin.Bounds.Radius), (int)(2*coin.Bounds.Radius));
-                //_spriteBatch.Draw(_ball, rect, Color.White);
+
+
             }
             _spriteBatch.DrawString(_coinCounter, $"Coins Left: {_coinsLeft}", new Vector2(2, 2), Color.Gold);
 
-            var rectG = new Rectangle(
-                    (int)_mc.Bounds.Left,
-                    (int)_mc.Bounds.Bottom,
-                    16, 16);
-
-            var rectT = new Rectangle(
-                    (int)_mc.Bounds.Right,
-                    (int)_mc.Bounds.Bottom,
-                    16, 16);
-            var rectE = new Rectangle(
-                    (int)_mc.Bounds.Left,
-                    (int)_mc.Bounds.Top,
-                    16, 16);
-
-            var rectD = new Rectangle(
-                    (int)_mc.Bounds.Right,
-                    (int)_mc.Bounds.Top,
-                    16, 16);
-
-            _spriteBatch.Draw(_ball, rectG, Color.White);
-            _spriteBatch.Draw(_ball, rectT, Color.White);
-            _spriteBatch.Draw(_ball, rectE, Color.White);
-            _spriteBatch.Draw(_ball, rectD, Color.White);
             _mc.Draw(gameTime, _spriteBatch);
 
-            if(_noCoinsLeft)
+            if (_noCoinsLeft)
             {
-                _spriteBatch.DrawString(_win, "Congratulations! You win! \n Press esc to exit the game", new Vector2(80, 60), Color.Red);
+                _spriteBatch.Draw(_gameWon, new Vector2(0, 0), null, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 1f);
+                _spriteBatch.DrawString(_win, "Congratulations! You win! \n Press esc to exit the game", new Vector2(60, 0), Color.Green);
             }
 
             _spriteBatch.End();

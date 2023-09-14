@@ -1,0 +1,13 @@
+﻿﻿Content/Coins.png - created by puddin of OpenGameArt.org (https://opengameart.org/content/rotating-coin) and released under the public domain
+
+
+Content/Pickup_Coin15.wav - created by Nathan Bean with BXFR, released under public domain
+
+
+Sprite_MC.png - created by Darius Tyson with Aseprite, released under public domain
+
+
+Throne room.png - created by Darius Tyson with Fire Alpaca, released under public domain
+
+
+gamewon.png - created by Darius Tyson with Fire Alpaca, released under public domain
