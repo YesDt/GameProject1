@@ -23,8 +23,6 @@ namespace GameProject1
     {
         private Texture2D _texture;
 
-
-
         private Vector2 _position = new Vector2(200, 300);
 
         KeyboardState currentKeyboardState;
@@ -50,10 +48,13 @@ namespace GameProject1
 
         }
 
+
+
         public void Update(GameTime gameTime)
         {
             priorKeyboardState = currentKeyboardState;
             currentKeyboardState = Keyboard.GetState();
+
 
 
             if (currentKeyboardState.IsKeyDown(Keys.A) ||
@@ -78,6 +79,9 @@ namespace GameProject1
             {
                 action = Action.Idle;
             }
+            if (_position.X < 0) _position.X = 0;
+            if (_position.X > 720) _position.X = 720;
+
             _bounds.X = _position.X;
             _bounds.Y = _position.Y;
         }
