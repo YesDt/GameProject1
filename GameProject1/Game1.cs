@@ -128,7 +128,7 @@ namespace GameProject1
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
             _spriteBatch.Draw(_throneRoom, new Vector2(0, 0), null, Color.White);
-            _spriteBatch.DrawString(_playerControls, "Get the coins! \nA and D, or the \nleft and right arrow keys to move. \nPress esc to quit.", new Vector2(330, 10), Color.Black);
+            _spriteBatch.DrawString(_playerControls, "Get the coins! \nTo move, press A and D, or the \nleft and right arrow keys. \nPress esc to quit.", new Vector2(330, 10), Color.Black);
             foreach (var coin in _coins)
             {
                 coin.Draw(gameTime, _spriteBatch);
