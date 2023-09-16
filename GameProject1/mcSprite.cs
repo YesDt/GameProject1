@@ -13,12 +13,18 @@ using GameProject1.Collisions;
 
 namespace GameProject1
 {
+    /// <summary>
+    /// States the main character will be in
+    /// </summary>
     public enum Action
     {
         Idle = 0,
         Running = 1,
     }
 
+    /// <summary>
+    /// Class for the main character sprite
+    /// </summary>
     public class mcSprite
     {
         private Texture2D _texture;
@@ -39,8 +45,15 @@ namespace GameProject1
 
         public Action action;
 
+        /// <summary>
+        /// Boundaries for the bounding rectangle of the sprite
+        /// </summary>
         public BoundingRectangle Bounds => _bounds;
 
+        /// <summary>
+        /// Loads the Main character sprite
+        /// </summary>
+        /// <param name="content">ContentManager</param>
         public void LoadContent(ContentManager content)
         {
             _texture = content.Load<Texture2D>("Sprite_MC");
@@ -49,7 +62,10 @@ namespace GameProject1
         }
 
 
-
+        /// <summary>
+        /// Updates the Main character
+        /// </summary>
+        /// <param name="gameTime">The real time elapsed in the game</param>
         public void Update(GameTime gameTime)
         {
             priorKeyboardState = currentKeyboardState;
@@ -86,6 +102,11 @@ namespace GameProject1
             _bounds.Y = _position.Y;
         }
 
+        /// <summary>
+        /// Draws the main character
+        /// </summary>
+        /// <param name="gameTime">The real time elapsed in the game</param>
+        /// <param name="spriteBatch">SpriteBatch</param>
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
 

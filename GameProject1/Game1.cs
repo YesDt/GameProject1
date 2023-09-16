@@ -7,6 +7,9 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;
 
 namespace GameProject1
 {
+    /// <summary>
+    /// Class for Game Project 1
+    /// </summary>
     public class Game1 : Game
     {
         private GraphicsDeviceManager _graphics;
@@ -25,9 +28,16 @@ namespace GameProject1
         private SpriteFont _win;
 
         private SoundEffect _coinPickup;
+        private Song _backgroundMusic;
 
+        /// <summary>
+        /// Tells whether there are coins left or not
+        /// </summary>
         private bool _noCoinsLeft { get; set; } = false;
 
+        /// <summary>
+        /// Game project 1
+        /// </summary>
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -35,6 +45,9 @@ namespace GameProject1
             IsMouseVisible = true;
         }
 
+        /// <summary>
+        /// Initializes the game
+        /// </summary>
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
@@ -51,6 +64,9 @@ namespace GameProject1
             base.Initialize();
         }
 
+        /// <summary>
+        /// Loads the content
+        /// </summary>
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -64,9 +80,16 @@ namespace GameProject1
             _throneRoom = Content.Load<Texture2D>("Throne room");
             _gameWon = Content.Load<Texture2D>("gamewon");
             _coinPickup = Content.Load<SoundEffect>("Pickup_Coin15");
+            _backgroundMusic = Content.Load<Song>("Monkeys-Spinning-Monkeys(chosic.com)");
+            MediaPlayer.IsRepeating = true;
+            MediaPlayer.Play(_backgroundMusic);
 
         }
 
+        /// <summary>
+        /// Updates the game
+        /// </summary>
+        /// <param name="gameTime"></param>
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -74,6 +97,7 @@ namespace GameProject1
 
             // TODO: Add your update logic here
             _mc.Update(gameTime);
+
             foreach (var coin in _coins)
             {
                 if (!coin.Collected && coin.Bounds.CollidesWith(_mc.Bounds))
@@ -93,6 +117,10 @@ namespace GameProject1
             base.Update(gameTime);
         }
 
+        /// <summary>
+        /// Draws the game
+        /// </summary>
+        /// <param name="gameTime">The real time elapsed in the game</param>
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
@@ -100,7 +128,7 @@ namespace GameProject1
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
             _spriteBatch.Draw(_throneRoom, new Vector2(0, 0), null, Color.White);
-            _spriteBatch.DrawString(_playerControls, "Get the coins! \n A and D, or the \n left and right arrow keys to move. \n Press esc to quit", new Vector2(220, 30), Color.Black);
+            _spriteBatch.DrawString(_playerControls, "Get the coins! \nA and D, or the \nleft and right arrow keys to move. \nPress esc to quit.", new Vector2(330, 10), Color.Black);
             foreach (var coin in _coins)
             {
                 coin.Draw(gameTime, _spriteBatch);
